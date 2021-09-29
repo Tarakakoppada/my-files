@@ -1,0 +1,114 @@
+<?php
+if(isset($_POST['submit']))
+{
+$Fname=$_POST['Fname'];
+$Lname=$_POST['Lname'];
+$Rno=$_POST['Rno'];
+$Adress=$_POST['Address'];
+$DOB=$_POST['DOB'];
+$Phno=$_POST['Phno'];
+$Email=$_POST['Email'];
+$Gender=$_POST['sex'];
+$Dno=$_POST['Dno'];
+$Credits=$_POST['Credits'];
+$password=$_POST['password'];
+$conn=mysqli_connect("localhost","root","","course_registration");
+if($conn){
+echo "database connection established";
+$checkquery="SELECT * FROM `login` WHERE Rno='$Rno' and
+password='$password'";
+$result=mysqli_query($conn,$checkquery);
+$count=mysqli_num_rows($result);
+if($count==1)
+{
+echo "user already registered.please login !";
+}
+else{
+$query="INSERT INTO `Student` (`RNo`, `Fname`, `Lname`, `Address`, `DOB`, `Phno`, `Email`, `Gender`, `Dno`, `Credits`) VALUES
+('$Rno','$Fname','$Lname','$Adress','$DOB','$Phno','$Email','$Gender','$Dno','$Credits')";
+$result1=mysqli_query($conn,$query);
+if($result1 ){
+	$query1="INSERT INTO `login`( `Rno`, `password`) VALUES
+('$Rno','$password')";
+	$result2=mysqli_query($conn,$query1);
+	if($result2){
+		echo "registration succesfull";
+            }
+}
+else{
+echo "registration unsuccessful";
+}
+}
+}
+else{
+echo "db conn not established";
+}
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+th,td{
+padding: 5px;
+width: 50%;
+}
+</style>
+</head>
+<body>
+<font face="corbel" color="blue">
+<center><h2>REGISTRATION FORM</h2></center>
+<center><table>
+<tr>
+<td><label for="Fname"><b>FIRST NAME :</label></td>
+<td><input type="text" name="Fname"></td>
+</tr>
+<tr>
+<td><label for="Lname"><b>LAST NAME :</label></td>
+<td><input type="text" name="Lname"></td>
+</tr>
+<tr>
+<td><label for="Rno"><b>ROLL NUMBER :</label></td>
+<td><input type="number" name="Rno"></td>
+</tr>
+<td><label for="Address"><b>ADDRESS :</label></td>
+<td><textarea name="Address" rows="5" cols="20" placeholder="address"></textarea></td>
+</tr>
+<tr>
+<td><label for="Email"><b>EMAIL ID :</label></td>
+<td><input type="text" name="Email"></td>
+</tr>
+<tr>
+<td><label for="Phno"><b>PHONE NUMBER :</label></td>
+<td><input type="number" name="Phno"></td>
+</tr>
+<tr>
+<td><label for="Gender"><b>SEX :</label></td>
+<td><input type="radio" name="sex" id="male"> MALE <input type="radio" name="sex" id="femal"> FEMALE
+</td>
+</tr>
+<tr>
+<td><label for="DOB"><b>Date of Birth:</label></td>
+<td><input type="date" name="DOB"></td>
+</tr>
+<tr>
+<tr>
+<td><lable for="Dno" ><b>DEPARTMENET NUMBER : </lable></td>
+<td><input type="number" id="Dno" name="Dno"></td><br><br>
+</tr>
+<tr>
+<td><lable for="Cedits" ><b>CREDITS: </lable></td>
+<td><input type="number" id="credits" name="Credits"></td><br><br>
+</tr>
+<tr>
+<tr>
+<td><lable for="password" ><b>PASSWORD : </lable></td>
+<td><input type="PASSWORD" id="password" name="password"></td><br><br>
+</tr>
+<tr>
+<td><input type="submit" name="submit"></td>
+<td><input type="reset" name="reset"></td>
+</tr>
+</table>
+</body>
+</html>
